@@ -7,4 +7,6 @@ public class UserResource
     public string LastName { set; get; }
     public short Age { set; get; }
     public long Phone { set; get; }
+    public string Password { set; get; }
+    public string Username { set; get; }
 }

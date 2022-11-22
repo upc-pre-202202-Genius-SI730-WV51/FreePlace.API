@@ -1,8 +1,9 @@
-﻿using FreePlace.API.Shared.Persistence.Contexts;
+﻿using FreePlace.API.Shared.Domain.Repositories;
+using FreePlace.API.Shared.Persistence.Contexts;
 
 namespace FreePlace.API.Shared.Persistence.Repositories;
 
-public class UnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
 

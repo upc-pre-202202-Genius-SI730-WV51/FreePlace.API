@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd03981d-3987-46eb-b9ed-a7cdace246fd" name="Changes" comment="" />
+    <list default="true" id="bd03981d-3987-46eb-b9ed-a7cdace246fd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/FreePlace.API/Shared/Persistence/Contexts/AppDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FreePlace.API/Shared/Persistence/Contexts/AppDbContext.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +47,8 @@
       <updated>1667938494543</updated>
       <workItem from="1667938497628" duration="35000" />
       <workItem from="1667940882626" duration="399000" />
+      <workItem from="1668543973190" duration="417000" />
+      <workItem from="1668712707005" duration="318000" />
     </task>
     <servers />
   </component>

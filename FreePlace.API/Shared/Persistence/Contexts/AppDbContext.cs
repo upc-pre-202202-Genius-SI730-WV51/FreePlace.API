@@ -9,9 +9,10 @@ public class AppDbContext: DbContext
 {
     public DbSet<Car> Cars { get; set; }
     public DbSet<Parking> Parkings { get; set; }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Booked> Bookings { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<Payment> Payments { get; set; }
     public AppDbContext(DbContextOptions options): base(options){}
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -42,6 +43,9 @@ public class AppDbContext: DbContext
         builder.Entity<User>().Property(p => p.Name).IsRequired().HasMaxLength(40);
         builder.Entity<User>().Property(p => p.Age).IsRequired();
         builder.Entity<User>().Property(p => p.Phone).IsRequired();
+        builder.Entity<User>().Property(p => p.Username).IsRequired();
+        builder.Entity<User>().Property(p => p.TypeAccount).IsRequired();
+        builder.Entity<User>().Property(p => p.Suscribed).IsRequired();
 
         //Booking Entity Mapping
         builder.Entity<Booked>().ToTable("Bookings");
@@ -49,14 +53,49 @@ public class AppDbContext: DbContext
         builder.Entity<Booked>().Property(p=> p.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Booked>().Property(p => p.StartDate).IsRequired();
         builder.Entity<Booked>().Property(p => p.EndDate).IsRequired();
+        builder.Entity<Booked>().Property(p => p.Status).IsRequired();
+
+        builder.Entity<Review>().ToTable("Reviews");
+        builder.Entity<Review>().HasKey(p => p.Id);
+        builder.Entity<Review>().Property(p=> p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Review>().Property(p => p.Comment).IsRequired();
+        builder.Entity<Review>().Property(p => p.likes).IsRequired();
+        builder.Entity<Review>().Property(p => p.dislikes).IsRequired();
+
+        builder.Entity<Payment>().Property("Payments");
+        builder.Entity<Payment>().HasKey(p => p.Id);
+        builder.Entity<Payment>().Property(p=> p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Payment>().Property(p => p.User).IsRequired();
+        builder.Entity<Payment>().Property(p => p.Description).IsRequired().HasMaxLength(100);
 
         //Relationships
-        /*
-        builder.Entity<Parking>()
-            .HasMany(p => p.Car)
+        builder.Entity<Parking>().HasMany(p => p.Cars)
             .WithOne(p => p.Parking)
             .HasForeignKey(p => p.ParkingId);
-        */
+        builder.Entity<Parking>().HasMany(p => p.Bookings)
+            .WithOne(p => p.Parking)
+            .HasForeignKey(p => p.ParkingId);
+        builder.Entity<Parking>().HasMany(p => p.Reviews)
+            .WithOne(p => p.Parking)
+            .HasForeignKey(p => p.ParkingId);
+        builder.Entity<User>().HasMany(p => p.Cars)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
+        builder.Entity<User>().HasMany(p => Parkings)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
+        builder.Entity<User>().HasMany(p => p.Bookings)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
+        builder.Entity<User>().HasMany(p => p.Reviews)
+            .WithOne(p => p.User)
+            .HasForeignKey(p => p.UserId);
+        builder.Entity<Car>().HasOne(p => p.Parking)
+            .WithOne(p => p.Car);
+        builder.Entity<Car>().HasOne(p => p.User)
+            .WithOne(p => p.Car);
+
+
     }
     
 }

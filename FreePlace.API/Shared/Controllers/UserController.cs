@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FreePlace.API.Security.Authorization.Attributes;
+using FreePlace.API.Security.Domain.Services.Communication;
 using FreePlace.API.Shared.Domain.Models;
 using FreePlace.API.Shared.Domain.Services;
 using FreePlace.API.Shared.Extensions;
@@ -19,7 +21,40 @@ public class UserController: ControllerBase
         _userService = userService;
         _mapper = mapper;
     }
-    
+
+    [AllowAnonymous]
+    [HttpPost("sign-in")]
+    public async Task<ActionResult> Authenticate(AuthenticateRequest request)
+    {
+        var response = await _userService.Authenticate(request);
+        return Ok(response);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("sign-up")]
+    public async Task<IActionResult> Register(RegisterRequest request)
+    {
+        await _userService.RegisterAsync(request);
+        return Ok(new { message = "Registration successful" });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var users = await _userService.ListAsync();
+        var resources = _mapper.Map<IEnumerable<User>, IEnumerable<UserResource>>(users);
+        return Ok(resources);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("to-suscribe")]
+    public async Task<ActionResult> Suscribe(PaymentRequest request)
+    {
+        var response = await _userService.Payment(request);
+        return Ok(response);
+    }
+
+    /*
     [HttpGet]
     public async Task<IEnumerable<UserResource>> GetAllAsync()
     {
@@ -64,4 +99,5 @@ public class UserController: ControllerBase
         var userResource = _mapper.Map<User, UserResource>(result.Resource);
         return Ok(userResource);
     }
+    */
 }

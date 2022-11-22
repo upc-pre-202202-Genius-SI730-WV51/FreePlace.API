@@ -8,7 +8,8 @@ public class Booked
     public int Id { set; get; }
     public DateTime StartDate { set; get; }
     public DateTime EndDate { set; get; }
-    
+    public bool Status { set; get; }
+
     //Relationships
     
     public long UserId { set; get; }

@@ -26,12 +26,27 @@ public class UserRepository: BaseRepository, IUserRepository
         return await _context.Users.FindAsync(id);
     }
 
-    public async void Update(User user)
+    public async Task<User> FindByUsernameAsync(string username)
+    {
+        return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+    }
+
+    public bool ExistsByUsername(string username)
+    {
+        return _context.Users.Any(x => x.Username == username);
+    }
+
+    public User FindById(int id)
+    {
+        return _context.Users.Find(id);
+    }
+
+    public void Update(User user)
     {
         _context.Users.Update(user);
     }
 
-    public async void Remove(User user)
+    public void Remove(User user)
     {
         _context.Users.Remove(user);
     }
